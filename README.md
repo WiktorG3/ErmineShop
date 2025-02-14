@@ -1,2 +1,2 @@
-# ErmineShop
-ErmineShop - e-commerce platform built with Spring Boot and React Vite, Docker for containerization, AWS for scalable database management, Kafka for event-driven architecture, and AI for intelligent recommendations and secure payments.
+# ErmineShop (in development)
+ErmineShop – an e-commerce platform built with Spring Boot and React Vite using Tailwind CSS. It leverages Docker (containerization), AWS (database), Kafka (event-driven architecture), and AI (recommendations, payments).
