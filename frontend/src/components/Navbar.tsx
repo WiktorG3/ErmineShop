@@ -1,13 +1,116 @@
 "use client"
 
-import { useState, useEffect } from "react";
-import { Menu, User, Settings, Heart, ShoppingCart, ChevronRight } from "lucide-react"
+import React, { useState, useEffect } from "react";
+import { Menu, User, Settings, ShoppingCart, ChevronRight } from "lucide-react"
 
-export default function Navbar() {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState(null);
-    const [activeHeaderDropdown, setActiveHeaderDropdown] = useState(null);
+interface LinkItem {
+    name: string
+    href: string
+}
+
+interface Category {
+    name: string
+    subcategories: LinkItem[]
+}
+
+interface DropdownMenuProps {
+    category: Category;
+    isOpen: boolean;
+}
+
+const categories: Category[] = [
+    {
+        name: "Computers and laptops",
+        subcategories: [
+            { name: "All", href: "#", },
+            { name: "Laptops", href: "#", },
+            { name: "Computers", href: "#", },
+        ],
+    },
+    {
+        name: "Smartphones and tablets",
+        subcategories: [
+            { name: "All", href: "#", },
+            { name: "Smartphones", href: "#", },
+            { name: "Tablets", href: "#", },
+            { name: "Smartwatches", href: "#", },
+            { name: "Accessories", href: "#", },
+        ],
+    },
+    {
+        name: "Computer components",
+        subcategories: [
+            { name: "All", href: "#", },
+            { name: "Processors", href: "#", },
+            { name: "Motherboards", href: "#", },
+            { name: "RAM", href: "#", },
+            { name: "Graphic cards",  href: "#", },
+            { name: "Hard drives and SSDs", href: "#", },
+            { name: "Power supplies", href: "#", },
+            { name: "Cases", href: "#", },
+            { name: "CPU cooling", href: "#", },
+        ],
+    },
+    {
+        name: "Peripheral devices",
+        subcategories: [
+            { name: "All", href: "#", },
+            { name: "Mouses", href: "#", },
+            { name: "Keyboards", href: "#", },
+            { name: "Headphones", href: "#", },
+            { name: "Webcams", href: "#", },
+            { name: "Printers and scanners", href: "#", },
+        ],
+    },
+    {
+        name: "Promotions and news",
+        subcategories: [
+            { name: "All", href: "#", },
+            { name: "Promotions", href: "#", },
+            { name: "News", href: "#", },
+        ],
+    },
+]
+
+const userMenu: LinkItem[] = [
+    { name: "Profile", href: "#" },
+    { name: "Orders", href: "#" },
+    { name: "Wishlist", href: "#" },
+    { name: "Logout", href: "#" },
+]
+
+const settingsMenu: LinkItem[] = [
+    { name: "Support", href: "#" },
+    { name: "Contact", href: "#" },
+    { name: "Returns", href: "#" },
+    { name: "FAQ", href: "#" },
+]
+
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ category, isOpen }) => {
+    if (!isOpen) return null
+
+    return (
+        <div className="absolute top-full left-0 w-64 bg-neutral-900 shadow-lg rounded-b-md overflow-hidden">
+            <div className="py-2">
+                {category.subcategories.map((item, index) => (
+                    <a
+                        key={index}
+                        href={item.href}
+                        className="flex items-center justify-between px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 hover:text-indigo-400"
+                    >
+                        <span>{item.name}</span>
+                    </a>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+const Navbar: React.FC = ()=> {
+    const [isScrolled, setIsScrolled] = useState<boolean>(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+    const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+    const [activeHeaderDropdown, setActiveHeaderDropdown] = useState<string | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -18,103 +121,11 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-
-    const categories = [
-        {
-            name: "Computers and laptops",
-            subcategories: [
-                { name: "All", href: "#", },
-                { name: "Laptops", href: "#", },
-                { name: "Computers", href: "#", },
-            ],
-        },
-        {
-            name: "Smartphones and tablets",
-            subcategories: [
-                { name: "All", href: "#", },
-                { name: "Smartphones", href: "#", },
-                { name: "Tablets", href: "#", },
-                { name: "Smartwatches", href: "#", },
-                { name: "Accessories", href: "#", },
-            ],
-        },
-        {
-            name: "Computer components",
-            subcategories: [
-                { name: "All", href: "#", },
-                { name: "Processors", href: "#", },
-                { name: "Motherboards", href: "#", },
-                { name: "RAM", href: "#", },
-                { name: "Graphic cards",  href: "#", },
-                { name: "Hard drives and SSDs", href: "#", },
-                { name: "Power supplies", href: "#", },
-                { name: "Cases", href: "#", },
-                { name: "CPU cooling", href: "#", },
-            ],
-        },
-        {
-            name: "Peripheral devices",
-            subcategories: [
-                { name: "All", href: "#", },
-                { name: "Mouses", href: "#", },
-                { name: "Keyboards", href: "#", },
-                { name: "Headphones", href: "#", },
-                { name: "Webcams", href: "#", },
-                { name: "Printers and scanners", href: "#", },
-            ],
-        },
-        {
-            name: "Promotions and news",
-            subcategories: [
-                { name: "All", href: "#", },
-                { name: "Promotions", href: "#", },
-                { name: "News", href: "#", },
-            ],
-        },
-    ]
-
-    const userMenu = [
-        { name: "Profile", href: "#" },
-        { name: "Orders", href: "#" },
-        { name: "Wishlist", href: "#" },
-        { name: "Logout", href: "#" },
-    ]
-
-    const settingsMenu = [
-        { name: "Support", href: "#" },
-        { name: "Contact", href: "#" },
-        { name: "Returns", href: "#" },
-        { name: "FAQ", href: "#" },
-    ]
-
-    const DropdownMenu = ({ category, isOpen }) => {
-        if (!isOpen) return null
-
-        return (
-            <div className="absolute top-full left-0 w-64 bg-neutral-900 shadow-lg rounded-b-md overflow-hidden">
-                <div className="py-2">
-                    {category.subcategories.map((item, index) => (
-                        <a
-                            key={index}
-                            href={item.href}
-                            className="flex items-center justify-between px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-800 hover:text-indigo-400"
-                        >
-                            <span>{item.name}</span>
-                        </a>
-                    ))}
-                </div>
-            </div>
-        )
-    }
-
-    const toggleLoginMenu = () => {
-        setIsLoginMenuOpen(!isLoginMenuOpen);
-    };
-
     return (
         <nav className={`fixed top-0 w-full bg-neutral-900 text-white z-50 transition-all duration-300 ${
             isScrolled ? "shadow-lg" : ""
-        }`}>
+        }`}
+        >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center gap-4">
@@ -240,5 +251,6 @@ export default function Navbar() {
                 </div>
             </div>
         </nav>
-)
-}
+    );
+};
+export default Navbar;
