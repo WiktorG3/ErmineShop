@@ -6,8 +6,8 @@ import { Menu, User, Settings, Heart, ShoppingCart, ChevronRight } from "lucide-
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState(null)
-    const [activeHeaderDropdown, setActiveHeaderDropdown] = useState(null)
+    const [activeDropdown, setActiveDropdown] = useState(null);
+    const [activeHeaderDropdown, setActiveHeaderDropdown] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -107,6 +107,10 @@ export default function Navbar() {
         )
     }
 
+    const toggleLoginMenu = () => {
+        setIsLoginMenuOpen(!isLoginMenuOpen);
+    };
+
     return (
         <nav className={`fixed top-0 w-full bg-neutral-900 text-white z-50 transition-all duration-300 ${
             isScrolled ? "shadow-lg" : ""
@@ -167,22 +171,22 @@ export default function Navbar() {
                                 <Settings className="h-6 w-6"/>
                             </button>
                             <DropdownMenu
-                                category={{ name: "Support", subcategories: settingsMenu }}
+                                category={{name: "Support", subcategories: settingsMenu}}
                                 isOpen={activeHeaderDropdown === "support"}
                             />
                         </div>
-                            <button className="relative cursor-pointer hover:text-indigo-400">
-                                <ShoppingCart className="h-6 w-6"/>
-                                <span
-                                    className="absolute -top-1 -right-1 bg-indigo-400 text-xs rounded-full h-4 w-4 flex items-center justify-center text-white">
+                        <button className="relative cursor-pointer hover:text-indigo-400">
+                            <ShoppingCart className="h-6 w-6"/>
+                            <span
+                                className="absolute -top-1 -right-1 bg-indigo-400 text-xs rounded-full h-4 w-4 flex items-center justify-center text-white">
                                 0
                             </span>
-                            </button>
-                        </div>
+                        </button>
                     </div>
+                </div>
 
-                    <div
-                        className={`hidden lg:block transition-all duration-300 ${isScrolled ? "h-0 overflow-hidden" : "h-12"}`}>
+                <div
+                    className={`hidden lg:block transition-all duration-300 ${isScrolled ? "h-0 overflow-hidden" : "h-12"}`}>
                         <ul className="flex items-center h-full gap-6 text-sm">
                             {categories.map((category, index) => (
                             <li
