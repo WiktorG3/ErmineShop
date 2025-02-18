@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +33,11 @@ public class User {
 
     @Column(name="provider_id")
     private String providerId;
+
+    @ElementCollection(fetch=FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Set<Role> roles = Set.of(Role.ROLE_USER);
 
     @Builder.Default
     private boolean enabled = true;
