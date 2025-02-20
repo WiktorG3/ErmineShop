@@ -3,7 +3,6 @@ package com.ermine.shop.controller;
 import com.ermine.shop.DTO.RegistrationRequest;
 import com.ermine.shop.DTO.UserDTO;
 import com.ermine.shop.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
